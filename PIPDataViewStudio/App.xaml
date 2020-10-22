@@ -1,0 +1,13 @@
+<Application x:Class="PIPDataViewStudio.App" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" StartupUri="MainWindow.xaml" Startup="OnAppStartup_UpdateThemeName" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" d1p1:Ignorable="d" xmlns:d1p1="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Convert="clr-namespace:PIPDataViewStudio.Convert">
+  
+  <Application.Resources>
+    <ResourceDictionary>
+            <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" xmlns:vm="clr-namespace:PIPDataViewStudio.ViewModel" />
+            <Convert:Bool2IsConnected x:Key="Bool2IsConnected"/>
+            <Convert:Bool2StartEnable x:Key="Bool2StartEnable"/>
+            <Convert:Bool2StopEnable x:Key="Bool2StopEnable"/>
+        </ResourceDictionary>
+  </Application.Resources>
+</Application>

@@ -1,0 +1,49 @@
+﻿<dxr:DXRibbonWindow
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+        xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+        xmlns:dxr="http://schemas.devexpress.com/winfx/2008/xaml/ribbon"
+        xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxc="http://schemas.devexpress.com/winfx/2008/xaml/charts"
+    xmlns:dxwui="http://schemas.devexpress.com/winfx/2008/xaml/windowsui"
+    xmlns:view="clr-namespace:PIPDataViewStudio.View" x:Class="PIPDataViewStudio.MainWindow"
+        Title="MainWindow" Height="450" Width="725"
+        x:Name="RootWindow"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <dxr:RibbonControl Grid.Row="0" RibbonStyle="Office2010">
+            <dxr:RibbonControl.ToolbarItems>
+                <dxb:BarButtonItemLink BarItemName="newItem"/>
+            </dxr:RibbonControl.ToolbarItems>
+            <dxr:RibbonDefaultPageCategory>
+                <dxr:RibbonPage Caption="Home">
+                    <dxr:RibbonPageGroup Caption="MainMenu">
+                        <dxb:BarButtonItem  Content="Connect" Command="{Binding ConnectCommand}" IsEnabled="{Binding IsOPCConnected, Converter={StaticResource Bool2IsConnected}}" LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/connect.png"/>
+                        <dxb:BarButtonItem  Content="Run" Command="{Binding RunCommand}" IsEnabled="{Binding CanStartEnabled, Converter={StaticResource Bool2StartEnable}}" LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/run.png"/>
+                        <dxb:BarButtonItem  Content="Stop" Command="{Binding StopCommand}" IsEnabled="{Binding CanStopEnabled}"  LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/stop.png"/>
+                        <dxb:BarButtonItem  Content="ChartView"  ItemClick="ChartView_ItemClick"  LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/data.png"/>
+                        <dxb:BarButtonItem  Content="DataGridView" ItemClick="DataGridView_ItemClick" LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/list.png"/>
+                        <dxb:BarButtonItem  Content="AnalysisView" Command="{Binding AnalysisCommand}" ItemClick="AnalysisView_ItemClick" CommandParameter="{Binding DataCollect}" LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/analysis.png"/>
+                        <dxb:BarButtonItem  Content="HistogramView" Command="{Binding HistogramCommand}" ItemClick="Histogram_ItemClick" CommandParameter="{Binding DataCollect}" LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/Histogram.png"/>
+                        <dxb:BarButtonItem  Content="Export" Command="{Binding ExportCommand}" LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/export.png"/>
+                    </dxr:RibbonPageGroup>
+                </dxr:RibbonPage>
+            </dxr:RibbonDefaultPageCategory>
+        </dxr:RibbonControl>
+        <dxwui:NavigationFrame x:Name="NvFrame" Grid.Row="1" AnimationType="SlideHorizontal" AnimationSpeedRatio="2" DataContext="{Binding DataCollect}">
+            <view:ChartView/>
+        </dxwui:NavigationFrame>
+        <dxr:RibbonStatusBarControl Grid.Row="2">
+            <dxr:RibbonStatusBarControl.LeftItems>
+                <dxb:BarStaticItem Content="{Binding StrLog}" ItemWidth="300"/>
+            </dxr:RibbonStatusBarControl.LeftItems>
+        </dxr:RibbonStatusBarControl>
+
+    </Grid>
+</dxr:DXRibbonWindow>

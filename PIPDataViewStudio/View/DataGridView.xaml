@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="PIPDataViewStudio.View.DataGridView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PIPDataViewStudio.View"
+             xmlns:dxprg="http://schemas.devexpress.com/winfx/2008/xaml/propertygrid"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <GridSplitter HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Column="1"/>
+        <Grid Grid.Column="2" DataContext="{Binding Main, Source={StaticResource Locator}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <dxprg:PropertyGridControl Name="LookupPropertyGrid"  SelectedObject="{Binding LookupModel}" ExpandCategoriesWhenSelectedObjectChanged="True"/>
+            <Button Grid.Row="1" HorizontalAlignment="Right" Width="200" Margin="5" Content="Query" Command="{Binding QueryCommand}"/>
+        </Grid>
+        <ListView ItemsSource="{Binding}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Index}" FontSize="15"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <TextBlock Text="Index" FontSize="20"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="300">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SleevesInfoModel.ReceivedTime}" FontSize="15"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <TextBlock Text="Time" FontSize="20"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SleevesInfoModel.SleeveHeight1}" FontSize="15"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <TextBlock Text="Track1" FontSize="20"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SleevesInfoModel.SleeveHeight2}" FontSize="15"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <TextBlock Text="Track2" FontSize="20"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SleevesInfoModel.SleeveHeight3}" FontSize="15"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <TextBlock Text="Track3" FontSize="20"/>
+                    </GridViewColumn>
+                    <GridViewColumn Width="300">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding SleevesInfoModel.SleeveHeight4}" FontSize="15"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                        <TextBlock Text="Track4" FontSize="20"/>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+            <!--<ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="400"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding TimeReceived}" FontSize="20"/>
+                        <TextBlock Grid.Column="1" Text="{Binding SleeveHeight1}" FontSize="20"/>
+                        <TextBlock Grid.Column="2" Text="{Binding SleeveHeight2}" FontSize="20"/>
+                        <TextBlock Grid.Column="3" Text="{Binding SleeveHeight3}" FontSize="20"/>
+                        <TextBlock Grid.Column="4" Text="{Binding SleeveHeight4}" FontSize="20"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>-->
+        </ListView>
+    </Grid>
+</UserControl>
