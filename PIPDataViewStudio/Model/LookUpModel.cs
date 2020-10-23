@@ -13,15 +13,19 @@ namespace PIPDataViewStudio.Model
 {
 	public class LookUpModel
 	{
+		[Category("Height")]
 		[PropertyOrderAttribute(0)]
-		public Int16[] MinHeight { get; set; } = new Int16[4];
+		public SleeveLimitHeight MinHeight { get; set; }
+		[Category("Height")]
 		[PropertyOrderAttribute(1)]
-		public Int16[] MaxHeight { get; set; } = new Int16[4];
+		public SleeveLimitHeight MaxHeight { get; set; }
 
+		[Category("DateTime")]
 		[PropertyOrderAttribute(2)]
 		//[Editor(typeof(DetailedDateTime), typeof(UITypeEditor))]
 		public DateTime TimeStart { get; set; } = DateTime.Now;
 
+		[Category("DateTime")]
 		[PropertyOrderAttribute(3)]
 		//[Editor(typeof(DetailedDateTime), typeof(UITypeEditor))]
 		public DateTime TimeEnd { get; set; } = DateTime.Now - new TimeSpan(0, 2, 0, 0);

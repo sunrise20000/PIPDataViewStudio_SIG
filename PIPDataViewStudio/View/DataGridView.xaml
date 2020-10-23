@@ -7,6 +7,7 @@
              xmlns:dxprg="http://schemas.devexpress.com/winfx/2008/xaml/propertygrid"
              xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:model="clr-namespace:PIPDataViewStudio.Model"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="UserControl_Loaded">
@@ -25,7 +26,36 @@
             <!--<WindowsFormsHost>
                 <forms:PropertyGrid x:Name="LookupPropertyGrid" Dock="Fill" PropertySort="NoSort"/>
             </WindowsFormsHost>-->
-            <xctk:PropertyGrid x:Name="LookupPropertyGrid" ShowSummary="False" ShowTitle="False" ShowDescriptionByTooltip="True"/>
+            <xctk:PropertyGrid SelectedObject="{Binding LookupModel}" x:Name="LookupPropertyGrid" ShowSummary="False" ShowTitle="False" ShowDescriptionByTooltip="True">
+                <xctk:PropertyGrid.EditorDefinitions>
+                    <xctk:EditorTemplateDefinition TargetProperties="{x:Type model:SleeveLimitHeight}">
+                        <xctk:EditorTemplateDefinition.EditingTemplate>
+                            <DataTemplate>
+                                <Grid Margin="5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                        <RowDefinition Height="30" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="60" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="Track1 " />
+                                    <TextBox Grid.Column="1" VerticalAlignment="Center" Text="{Binding Path=Value, Converter={StaticResource SleeveHeightConvert},ConverterParameter=Track1}" />
+                                    <TextBlock Grid.Row="1" VerticalAlignment="Center" Text="Track2 " />
+                                    <TextBox Grid.Row="1" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=Value, Converter={StaticResource SleeveHeightConvert},ConverterParameter=Track2}" />
+                                    <TextBlock Grid.Row="2" VerticalAlignment="Center" Text="Track3 " />
+                                    <TextBox Grid.Row="2" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=Value, Converter={StaticResource SleeveHeightConvert},ConverterParameter=Track3}" />
+                                    <TextBlock Grid.Row="3" VerticalAlignment="Center" Text="Track4 " />
+                                    <TextBox Grid.Row="3" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=Value, Converter={StaticResource SleeveHeightConvert},ConverterParameter=Track4}" />
+                                </Grid>
+                            </DataTemplate>
+                        </xctk:EditorTemplateDefinition.EditingTemplate>
+                    </xctk:EditorTemplateDefinition>
+                </xctk:PropertyGrid.EditorDefinitions>
+            </xctk:PropertyGrid>
             <!--<dxprg:PropertyGridControl Name="LookupPropertyGrid" SelectedObject="{Binding LookupModel}" ExpandCategoriesWhenSelectedObjectChanged="True" ShowCategories="True" ShowDescriptionIn="ToolTip" UseCollectionEditor="True" AllowListItemInitializer="False" AllowInstanceInitializer="False"/>-->
             <Button Grid.Row="1" HorizontalAlignment="Right" Width="150" Margin="15,5" Content="Query" Command="{Binding QueryCommand}"/>
         </Grid>

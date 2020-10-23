@@ -280,8 +280,8 @@ namespace PIPDataViewStudio.ViewModel
 		}
 		public RelayCommand QueryCommand { get { return new RelayCommand(()=> {
 			var CommandStartTime = DateTime.Now;
-			Int16 MinHeight1 = LookupModel.MinHeight[0], MinHeight2 = LookupModel.MinHeight[1], MinHeight3 = LookupModel.MinHeight[2], MinHeight4 = LookupModel.MinHeight[3];
-			Int16 MaxHeight1 = LookupModel.MaxHeight[0], MaxHeight2 = LookupModel.MaxHeight[1], MaxHeight3 = LookupModel.MaxHeight[2], MaxHeight4 = LookupModel.MaxHeight[3];
+			Int16 MinHeight1 = LookupModel.MinHeight.Track1, MinHeight2 = LookupModel.MinHeight.Track2, MinHeight3 = LookupModel.MinHeight.Track3, MinHeight4 = LookupModel.MinHeight.Track4;
+			Int16 MaxHeight1 = LookupModel.MaxHeight.Track1, MaxHeight2 = LookupModel.MaxHeight.Track2, MaxHeight3 = LookupModel.MaxHeight.Track3, MaxHeight4 = LookupModel.MaxHeight.Track4;
 			bool xEnableTrack1 = MinHeight1 <= 0 && MaxHeight1 <= 0;
 			bool xEnableTrack2 = MinHeight2 <= 0 && MaxHeight2 <= 0;
 			bool xEnableTrack3 = MinHeight3 <= 0 && MaxHeight3 <= 0;

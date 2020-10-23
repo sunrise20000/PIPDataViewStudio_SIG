@@ -327,12 +327,14 @@
     <Compile Include="Convert\Bool2StartEnable.cs" />
     <Compile Include="Convert\Bool2StopEnable.cs" />
     <Compile Include="Convert\DateTime2String.cs" />
+    <Compile Include="Convert\SleeveHeightConvert.cs" />
     <Compile Include="Model\AnalysisResultModel.cs" />
     <Compile Include="CLass\DataAnalysisHelper.cs" />
     <Compile Include="Model\DistributeModel.cs" />
     <Compile Include="CLass\DistributionHelper.cs" />
     <Compile Include="Model\LookUpModel.cs" />
     <Compile Include="Model\PIPDataModel.cs" />
+    <Compile Include="Model\SleeveLimitHeight.cs" />
     <Compile Include="Model\SleevesInfo.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

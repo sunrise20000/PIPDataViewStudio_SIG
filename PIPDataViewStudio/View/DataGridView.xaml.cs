@@ -29,7 +29,7 @@ namespace PIPDataViewStudio.View
 
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			LookupPropertyGrid.SelectedObject = (GridRoot.DataContext as MainViewModel).LookupModel;
+			//LookupPropertyGrid.SelectedObject = (GridRoot.DataContext as MainViewModel).LookupModel;
 		}
 	}
 }
