@@ -5,22 +5,29 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PIPDataViewStudio.View"
              xmlns:dxprg="http://schemas.devexpress.com/winfx/2008/xaml/propertygrid"
+             xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800"
+             Loaded="UserControl_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
         <GridSplitter HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Column="1"/>
-        <Grid Grid.Column="2" DataContext="{Binding Main, Source={StaticResource Locator}}">
+        <Grid Name="GridRoot" Grid.Column="2" DataContext="{Binding Main, Source={StaticResource Locator}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-            <dxprg:PropertyGridControl Name="LookupPropertyGrid"  SelectedObject="{Binding LookupModel}" ExpandCategoriesWhenSelectedObjectChanged="True"/>
-            <Button Grid.Row="1" HorizontalAlignment="Right" Width="200" Margin="5" Content="Query" Command="{Binding QueryCommand}"/>
+            <!--<WindowsFormsHost>
+                <forms:PropertyGrid x:Name="LookupPropertyGrid" Dock="Fill" PropertySort="NoSort"/>
+            </WindowsFormsHost>-->
+            <xctk:PropertyGrid x:Name="LookupPropertyGrid" ShowSummary="False" ShowTitle="False" ShowDescriptionByTooltip="True"/>
+            <!--<dxprg:PropertyGridControl Name="LookupPropertyGrid" SelectedObject="{Binding LookupModel}" ExpandCategoriesWhenSelectedObjectChanged="True" ShowCategories="True" ShowDescriptionIn="ToolTip" UseCollectionEditor="True" AllowListItemInitializer="False" AllowInstanceInitializer="False"/>-->
+            <Button Grid.Row="1" HorizontalAlignment="Right" Width="150" Margin="15,5" Content="Query" Command="{Binding QueryCommand}"/>
         </Grid>
         <ListView ItemsSource="{Binding}">
             <ListView.View>
@@ -36,7 +43,7 @@
                     <GridViewColumn Width="300">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding SleevesInfoModel.ReceivedTime}" FontSize="15"/>
+                                <TextBlock Text="{Binding SleevesInfoModel.ReceivedTime, Converter={StaticResource DateTime2String}}" FontSize="15"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                         <TextBlock Text="Time" FontSize="20"/>

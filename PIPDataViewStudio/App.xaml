@@ -8,6 +8,7 @@
             <Convert:Bool2IsConnected x:Key="Bool2IsConnected"/>
             <Convert:Bool2StartEnable x:Key="Bool2StartEnable"/>
             <Convert:Bool2StopEnable x:Key="Bool2StopEnable"/>
+            <Convert:DateTime2String x:Key="DateTime2String"/>
         </ResourceDictionary>
   </Application.Resources>
 </Application>

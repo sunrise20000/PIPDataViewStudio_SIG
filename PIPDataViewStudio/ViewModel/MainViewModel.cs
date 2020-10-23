@@ -217,7 +217,7 @@ namespace PIPDataViewStudio.ViewModel
 							foreach (var it in DataCollect) // row
 							{
 								sheet.Cells[i, 1].Value = it.Index;
-								sheet.Cells[i, 2].Value = it.SleevesInfoModel.ReceivedTime.ToString(@"yyyy/MM/dd HH:mm:ss");
+								sheet.Cells[i, 2].Value = it.SleevesInfoModel.ReceivedTime.ToString(@"yyyy/MM/dd HH:mm:ss.fff");
 								sheet.Cells[i, 3].Value = it.SleevesInfoModel.SleeveHeight1;
 								sheet.Cells[i, 4].Value = it.SleevesInfoModel.SleeveHeight2;
 								sheet.Cells[i, 5].Value = it.SleevesInfoModel.SleeveHeight3;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PIPDataViewStudio.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,12 @@ namespace PIPDataViewStudio.View
 		public DataGridView()
 		{
 			InitializeComponent();
-		
+			
+		}
+
+		private void UserControl_Loaded(object sender, RoutedEventArgs e)
+		{
+			LookupPropertyGrid.SelectedObject = (GridRoot.DataContext as MainViewModel).LookupModel;
 		}
 	}
 }

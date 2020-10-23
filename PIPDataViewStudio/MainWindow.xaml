@@ -36,7 +36,7 @@
                 </dxr:RibbonPage>
             </dxr:RibbonDefaultPageCategory>
         </dxr:RibbonControl>
-        <dxwui:NavigationFrame x:Name="NvFrame" Grid.Row="1" AnimationType="SlideHorizontal" AnimationSpeedRatio="2" DataContext="{Binding DataCollect}">
+        <dxwui:NavigationFrame x:Name="NvFrame" Grid.Row="1" AnimationType="SlideVertical" AnimationSpeedRatio="1"  DataContext="{Binding DataCollect}">
             <view:ChartView/>
         </dxwui:NavigationFrame>
         <dxr:RibbonStatusBarControl Grid.Row="2">

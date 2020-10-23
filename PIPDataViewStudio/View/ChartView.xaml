@@ -13,7 +13,7 @@
                         <dxc:Legend UseCheckBoxes="True"/>
                     </dxc:ChartControl.Legends>
                     
-                    <dxc:XYDiagram2D >
+                    <dxc:XYDiagram2D DependentAxesYRange="True">
                         <dxc:XYDiagram2D.AxisX>
                             <dxc:AxisX2D>
                                 <dxc:AxisX2D.Title>
@@ -32,7 +32,7 @@
                 <dxc:PointSeries2D DisplayName="Track 2" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight2" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
                 <dxc:PointSeries2D DisplayName="Track 3" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight3" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
                 <dxc:PointSeries2D DisplayName="Track 4" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight4" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
-                    </dxc:XYDiagram2D>
+                </dxc:XYDiagram2D>
 
                 </dxc:ChartControl>
             </Grid>
