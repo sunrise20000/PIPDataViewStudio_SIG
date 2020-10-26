@@ -65,7 +65,7 @@ namespace PIPDataViewStudio.ViewModel
 			}
 			catch (Exception ex)
 			{
-				MessageBox.Show($"{ex.Message}----{ex.StackTrace}");
+				MessageBox.Show($"{ex.Message}----{ex.StackTrace}","Sql connection error",MessageBoxButton.OKCancel,MessageBoxImage.Error);
 			}
 		}
 		#endregion
