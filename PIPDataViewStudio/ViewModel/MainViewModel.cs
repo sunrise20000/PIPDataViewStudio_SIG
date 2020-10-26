@@ -17,6 +17,7 @@ using Opc.Ua.Client;
 using SqlSugar;
 using OfficeOpenXml;
 using System.IO;
+using System.Configuration;
 
 namespace PIPDataViewStudio.ViewModel
 {
@@ -57,8 +58,15 @@ namespace PIPDataViewStudio.ViewModel
 		#region Ctr
 		public MainViewModel()
 		{
-			InitOPCTags();
-			CreateDB();
+			try
+			{
+				InitOPCTags();
+				CreateDB();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"{ex.Message}----{ex.StackTrace}");
+			}
 		}
 		#endregion
 
@@ -320,9 +328,10 @@ namespace PIPDataViewStudio.ViewModel
 		{
 			try
 			{
+				var OpcServiceAddress = ConfigurationManager.AppSettings["OpcServiceAddress"];
 				var dt = DateTime.Parse("15:26:07.683");
 				opcUaClient.UserIdentity = new UserIdentity("Administrator", "SIGCombibloc");
-				await opcUaClient.ConnectServer(OPCSERVICE_ADDRESS);
+				await opcUaClient.ConnectServer(OpcServiceAddress);
 				MessageBox.Show("Connect successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
 				//opcUaClient.AddSubscription("EventA", $"ns=2;s=Siemens_1.RecordInformation.RecordTrack1Time[0]", EventACallback);
 			}
@@ -489,9 +498,11 @@ namespace PIPDataViewStudio.ViewModel
 
 		private void CreateDB()
 		{
+
+			var connString = ConfigurationManager.AppSettings["ConnString"];
 			SugarClient = new SqlSugarClient(new ConnectionConfig()
 			{
-				ConnectionString = CONNECT_STRING + DATABASE_NAME,
+				ConnectionString = connString,
 				DbType = DbType.SqlServer,
 				IsAutoCloseConnection = true,
 				InitKeyType = InitKeyType.Attribute
@@ -499,6 +510,7 @@ namespace PIPDataViewStudio.ViewModel
 			});
 			SugarClient.Open();
 			CreateTable(false, 50, typeof(SleevesInfo));
+		
 		}
 
 		private void CreateTable(bool Backup = false, int StringDefaultLength = 50, params Type[] types)

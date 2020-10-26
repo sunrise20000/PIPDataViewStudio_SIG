@@ -326,6 +326,7 @@
     <Compile Include="Convert\Bool2IsConnected.cs" />
     <Compile Include="Convert\Bool2StartEnable.cs" />
     <Compile Include="Convert\Bool2StopEnable.cs" />
+    <Compile Include="Convert\DateTime2StringWithoutMS.cs" />
     <Compile Include="Convert\DateTime2String.cs" />
     <Compile Include="Convert\SleeveHeightConvert.cs" />
     <Compile Include="Model\AnalysisResultModel.cs" />

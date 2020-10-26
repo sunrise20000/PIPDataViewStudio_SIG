@@ -8,6 +8,7 @@
              xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:model="clr-namespace:PIPDataViewStudio.Model"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Loaded="UserControl_Loaded">
@@ -51,6 +52,17 @@
                                     <TextBlock Grid.Row="3" VerticalAlignment="Center" Text="Track4 " />
                                     <TextBox Grid.Row="3" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Path=Value, Converter={StaticResource SleeveHeightConvert},ConverterParameter=Track4}" />
                                 </Grid>
+                            </DataTemplate>
+                        </xctk:EditorTemplateDefinition.EditingTemplate>
+                    </xctk:EditorTemplateDefinition>
+                    <xctk:EditorTemplateDefinition >
+                        <xctk:EditorTemplateDefinition.TargetProperties>
+                            <!--<sys:String>Age</sys:String>-->
+                            <xctk:TargetPropertyType Type="{x:Type sys:DateTime}" />
+                        </xctk:EditorTemplateDefinition.TargetProperties>
+                        <xctk:EditorTemplateDefinition.EditingTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Value, Converter={StaticResource DateTime2StringWithoutMS}}" />
                             </DataTemplate>
                         </xctk:EditorTemplateDefinition.EditingTemplate>
                     </xctk:EditorTemplateDefinition>

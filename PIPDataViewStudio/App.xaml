@@ -10,6 +10,7 @@
             <Convert:Bool2StopEnable x:Key="Bool2StopEnable"/>
             <Convert:DateTime2String x:Key="DateTime2String"/>
             <Convert:SleeveHeightConvert x:Key="SleeveHeightConvert"/>
+            <Convert:DateTime2StringWithoutMS x:Key="DateTime2StringWithoutMS"/>
         </ResourceDictionary>
   </Application.Resources>
 </Application>
