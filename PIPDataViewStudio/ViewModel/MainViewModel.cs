@@ -65,6 +65,10 @@ namespace PIPDataViewStudio.ViewModel
 		private void OpcUaClient_OpcStatusChange(object sender, OpcUaStatusEventArgs e)
 		{
 			IsOPCConnected = !e.Error;
+			if (!IsOPCConnected)
+			{
+				Stop();
+			}
 			Console.WriteLine(e.Error);
 		}
 		#endregion
@@ -184,9 +188,7 @@ namespace PIPDataViewStudio.ViewModel
 			{
 				return new RelayCommand(() =>
 				{
-					cts.Cancel();
-					xStart = false;
-					StartStatusChanged(xStart);
+					Stop();
 				});
 			}
 		}
@@ -383,9 +385,7 @@ namespace PIPDataViewStudio.ViewModel
 				var SleeveHeightRecord = opcUaClient.ReadNodes<Int16[]>(SleeveHeightTags.ToArray());
 				if (SleeveHeightRecord[0] == null )
 				{
-					cts.Cancel();
-					xStart = false;
-					StartStatusChanged(xStart);
+					Stop();
 					ShowLog($"The OPC item: SleeveHeightRecord is not exist");
 					Application.Current.Dispatcher.Invoke(()=> {
 						IsReadSuccessful = false;
@@ -398,9 +398,7 @@ namespace PIPDataViewStudio.ViewModel
 				var SleeveDateRecord = opcUaClient.ReadNodes<string>(SleevesDateTags.ToArray());
 				if (SleeveStatusRecord[0] == null || SleeveTimeRecord[0] == null || SleeveDateRecord[0] == null)
 				{
-					cts.Cancel();
-					xStart = false;
-					StartStatusChanged(xStart);
+					Stop();
 					ShowLog($"The OPC item: SleeveStatusRecord is not exist");
 					Application.Current.Dispatcher.Invoke(() => {
 						IsReadSuccessful = false;
@@ -457,11 +455,6 @@ namespace PIPDataViewStudio.ViewModel
 				var listCommit = AnalysisData(modelList);
 				DataBuffer = new List<PIPDataModel>(modelList);
 				var CommitDataModel = from data in listCommit select data.SleevesInfoModel;
-
-				//foreach (var data in listCommit)
-				//{
-				//	SugarClient.Insertable(data.SleevesInfoModel).ExecuteCommand();
-				//}
 				if (CommitDataModel != null && CommitDataModel.Count() > 0)
 				{
 					foreach (var d in listCommit)
@@ -470,14 +463,12 @@ namespace PIPDataViewStudio.ViewModel
 					}
 					SugarClient.Insertable(CommitDataModel.ToArray()).ExecuteCommand();
 				}
-				//SugarClient.CommitTran();
 
 				Application.Current.Dispatcher.Invoke(() =>
 				{
 					IsReadSuccessful = true;
-					ShowLog($"Recording data: {DataCollect.Count} items are recorded");
-					//DataCollect = new ObservableCollection<PIPDataModel>(listCommit);
 					DataCollect = new ObservableCollection<PIPDataModel>(DataCollect.Concat(listCommit));
+					ShowLog($"Recording data: {DataCollect.Count} items are recorded");
 					if (DataCollect.Count > 10000)
 						for (int i = 0; i < listCommit.Count; i++)
 							DataCollect.RemoveAt(0);
@@ -565,6 +556,16 @@ namespace PIPDataViewStudio.ViewModel
 		private void ShowLog(string StrLog)
 		{
 			this.StrLog = StrLog;
+		}
+
+		private void Stop()
+		{
+			if (cts != null)
+			{
+				cts.Cancel();
+				xStart = false;
+				StartStatusChanged(xStart);
+			}
 		}
 		#endregion
 	}

@@ -23,12 +23,12 @@ namespace PIPDataViewStudio.Model
 		[Category("DateTime")]
 		[PropertyOrderAttribute(2)]
 		//[Editor(typeof(DetailedDateTime), typeof(UITypeEditor))]
-		public DateTime TimeStart { get; set; } = DateTime.Now;
+		public DateTime TimeStart { get; set; } = DateTime.Now - new TimeSpan(1, 0, 0, 0);
 
 		[Category("DateTime")]
 		[PropertyOrderAttribute(3)]
 		//[Editor(typeof(DetailedDateTime), typeof(UITypeEditor))]
-		public DateTime TimeEnd { get; set; } = DateTime.Now - new TimeSpan(0, 2, 0, 0);
+		public DateTime TimeEnd { get; set; } = DateTime.Now;
 		//public TRACK Track { get; set; }
 	}
 }
