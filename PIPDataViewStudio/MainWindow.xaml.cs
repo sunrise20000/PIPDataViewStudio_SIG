@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DevExpress.Xpf.Ribbon;
 using PIPDataViewStudio.View;
+using PIPDataViewStudio.ViewModel;
 
 namespace PIPDataViewStudio
 {
@@ -43,6 +44,11 @@ namespace PIPDataViewStudio
 		private void Histogram_ItemClick(object sender, DevExpress.Xpf.Bars.ItemClickEventArgs e)
 		{
 			NvFrame.Navigate(typeof(HistogramView), RootWindow.DataContext);
+		}
+
+		private void RootWindow_Loaded(object sender, RoutedEventArgs e)
+		{
+			(DataContext as MainViewModel).WindowLoadCommand.Execute(null);
 		}
 	}
 }

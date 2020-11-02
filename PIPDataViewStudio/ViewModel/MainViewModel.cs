@@ -30,7 +30,7 @@ namespace PIPDataViewStudio.ViewModel
 		const int MAX_COUNT = 10000;
 		const string CONNECT_STRING = @"server=CFA874151001\ZENON_2012;uid=sa;pwd=SIGCombibloc;database=";
 		const string DATABASE_NAME = "SleeveInfo";
-		const string BACKUP_DATABASE_PATH = @"D:\";
+		string BACKUP_DATABASE_PATH = AppDomain.CurrentDomain.BaseDirectory;
 		const string OPCSERVICE_ADDRESS = "opc.tcp://NVKSOJN8395X464:4980/Softing_dataFEED_OPC_Suite_Configuration1";//"opc.tcp://172.19.133.2:49380" /*"opc.tcp://10.20.16.37:4841"*/;
 		string CURRENT_MODULE_PATH = AppDomain.CurrentDomain.BaseDirectory;
 		const string EXPORT_PATH = "Export";
@@ -49,25 +49,12 @@ namespace PIPDataViewStudio.ViewModel
 		private CancellationTokenSource cts = new CancellationTokenSource();
 		private bool xStart = false;
 		private bool _isOPCConnected = false;
+		private bool _isSqlServerConnected = false;
 		private bool _canStartEnabled = false;
 		private bool _canStopEnabled = false;
+		private bool _isReadSuccessful = true;
 		private string _strLog = "Ready";
 		
-		#endregion
-
-		#region Ctr
-		public MainViewModel()
-		{
-			try
-			{
-				InitOPCTags();
-				CreateDB();
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show($"{ex.Message}----{ex.StackTrace}","Sql connection error",MessageBoxButton.OKCancel,MessageBoxImage.Error);
-			}
-		}
 		#endregion
 
 		#region Property
@@ -105,12 +92,15 @@ namespace PIPDataViewStudio.ViewModel
 				}
 			}
 		}
-
 		public bool IsSqlServerConnected
 		{
-			get
-			{
-				return false;
+			get { return _isSqlServerConnected; }
+			set {
+				if (value != _isSqlServerConnected)
+				{
+					_isSqlServerConnected = value;
+					RaisePropertyChanged();
+				}
 			}
 		}
 		public bool CanStartEnabled
@@ -138,7 +128,14 @@ namespace PIPDataViewStudio.ViewModel
 			}
 		}
 		public LookUpModel LookupModel { get; set; } = new LookUpModel();
-
+		public bool IsReadSuccessful { get { return _isReadSuccessful; }
+			set {
+				if (value != _isReadSuccessful)
+				{
+					_isReadSuccessful = value;
+					RaisePropertyChanged();
+				}
+			} }
 		public string StrLog {
 			get { return _strLog; }
 			set {
@@ -320,6 +317,19 @@ namespace PIPDataViewStudio.ViewModel
 				ShowLog($"Total {DataCollect.Count} items found  |  {(DateTime.Now - CommandStartTime).TotalSeconds.ToString("0.00")} seconds");
 			}
 		}); } }
+		public RelayCommand WindowLoadCommand { get { return new RelayCommand(()=> {
+			try
+			{
+				InitOPCTags();
+				CreateDB();
+				IsSqlServerConnected = true;
+			}
+			catch (Exception ex)
+			{
+				IsSqlServerConnected = false;
+				MessageBox.Show($"{ex.Message}----{ex.StackTrace}", "Sql connection error", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+			}
+		}); } }
 		#endregion
 
 		#region  Privage function
@@ -350,7 +360,8 @@ namespace PIPDataViewStudio.ViewModel
 			Application.Current.Dispatcher.Invoke(() =>
 			{
 				DataCollect.Clear();
-				ShowLog("Ready");
+				IsReadSuccessful = true;
+				ShowLog($"Reading ......");
 			});
 			DateTime TimeStart = DateTime.Now;
 			var LHeight = new List<Int16>();
@@ -359,30 +370,39 @@ namespace PIPDataViewStudio.ViewModel
 			cts = new CancellationTokenSource();
 			DateTime OriginPLCTime = DateTime.Now;
 			Int32 IndexCount = 0;
-
-
 			//
-			
 			while (!cts.Token.IsCancellationRequested)
 			{
-
 				StartStatusChanged(true);
-
 				//opcUaClient.WriteNode<string>(SleevesTimeTags[0],DateTime.Now.ToShortTimeString());
-
 				var SleeveHeightRecord = opcUaClient.ReadNodes<Int16[]>(SleeveHeightTags.ToArray());
-				var SleeveStatusRecord = opcUaClient.ReadNodes<Int16[]>(SleeveStatusTags.ToArray());
-				var SleeveTimeRecord = opcUaClient.ReadNodes<string>(SleevesTimeTags.ToArray());
-				var SleeveDateRecord = opcUaClient.ReadNodes<string>(SleevesDateTags.ToArray());
-				
-				if (SleeveHeightRecord[0] == null || SleeveStatusRecord[0] == null || SleeveTimeRecord[0] == null || SleeveDateRecord[0] == null)
+				if (SleeveHeightRecord[0] == null )
 				{
 					cts.Cancel();
 					xStart = false;
 					StartStatusChanged(xStart);
-					break;
+					ShowLog($"The OPC item: SleeveHeightRecord is not exist");
+					Application.Current.Dispatcher.Invoke(()=> {
+						IsReadSuccessful = false;
+					});
+					return -1;
 				}
 
+				var SleeveStatusRecord = opcUaClient.ReadNodes<Int16[]>(SleeveStatusTags.ToArray());
+				var SleeveTimeRecord = opcUaClient.ReadNodes<string>(SleevesTimeTags.ToArray());
+				var SleeveDateRecord = opcUaClient.ReadNodes<string>(SleevesDateTags.ToArray());
+				if (SleeveStatusRecord[0] == null || SleeveTimeRecord[0] == null || SleeveDateRecord[0] == null)
+				{
+					cts.Cancel();
+					xStart = false;
+					StartStatusChanged(xStart);
+					ShowLog($"The OPC item: SleeveStatusRecord is not exist");
+					Application.Current.Dispatcher.Invoke(() => {
+						IsReadSuccessful = false;
+					});
+					return -1;
+				}
+				
 				if (!xStart)
 				{
 					//TimeStart = DateTime.Parse($"{SleeveDateRecord[0]} {SleeveTimeRecord[0]}");
@@ -449,14 +469,14 @@ namespace PIPDataViewStudio.ViewModel
 
 				Application.Current.Dispatcher.Invoke(() =>
 				{
-
+					IsReadSuccessful = true;
+					ShowLog($"Recording data: {DataCollect.Count} items are recorded");
 					//DataCollect = new ObservableCollection<PIPDataModel>(listCommit);
 					DataCollect = new ObservableCollection<PIPDataModel>(DataCollect.Concat(listCommit));
 					if (DataCollect.Count > 10000)
 						for (int i = 0; i < listCommit.Count; i++)
 							DataCollect.RemoveAt(0);
 				});
-
 				Thread.Sleep(TIME_READ_MILISECOND);
 			}
 			Application.Current.Dispatcher.Invoke(()=> {
@@ -533,15 +553,16 @@ namespace PIPDataViewStudio.ViewModel
 			SleeveStatusTags.Clear();
 			SleevesTimeTags.Clear();
 			SleevesDateTags.Clear();
+			var ns = ConfigurationManager.AppSettings["Ns"];
 			for (int i = 0; i < TRACKNUMBER; i++)
 			{
-				SleeveHeightTags.Add($"ns=2;s=Siemens_1.MeasureHalfFIlling.TrackRecord{i + 1}");
-				SleeveStatusTags.Add($"ns=2;s=Siemens_1.RecordInformation.RecordTrack{i + 1}Status");
+				SleeveHeightTags.Add($"ns={ns};s=Siemens_1.MeasureHalfFIlling.TrackRecord{i + 1}");
+				SleeveStatusTags.Add($"ns={ns};s=Siemens_1.RecordInformation.RecordTrack{i + 1}Status");
 			}
 			for (int j = 0; j < ROW; j++)
 			{
-				SleevesTimeTags.Add($"ns=2;s=Siemens_1.RecordInformation.RecordTrack1Time[{j}]");
-				SleevesDateTags.Add($"ns=2;s=Siemens_1.RecordInformation.RecordTrack1Date[{j}]");
+				SleevesTimeTags.Add($"ns={ns};s=Siemens_1.RecordInformation.RecordTrack1Time[{j}]");
+				SleevesDateTags.Add($"ns={ns};s=Siemens_1.RecordInformation.RecordTrack1Date[{j}]");
 			}
 		}
 

@@ -328,6 +328,8 @@
     <Compile Include="Convert\Bool2StopEnable.cs" />
     <Compile Include="Convert\DateTime2StringWithoutMS.cs" />
     <Compile Include="Convert\DateTime2String.cs" />
+    <Compile Include="Convert\IsReadSuccessful2Color.cs" />
+    <Compile Include="Convert\IsConnect2Color.cs" />
     <Compile Include="Convert\SleeveHeightConvert.cs" />
     <Compile Include="Model\AnalysisResultModel.cs" />
     <Compile Include="CLass\DataAnalysisHelper.cs" />

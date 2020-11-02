@@ -11,6 +11,8 @@
             <Convert:DateTime2String x:Key="DateTime2String"/>
             <Convert:SleeveHeightConvert x:Key="SleeveHeightConvert"/>
             <Convert:DateTime2StringWithoutMS x:Key="DateTime2StringWithoutMS"/>
+            <Convert:IsConnect2Color x:Key="IsConnect2Color"/>
+            <Convert:IsReadSuccessful2Color x:Key="IsReadSuccessful2Color"/>
         </ResourceDictionary>
   </Application.Resources>
 </Application>
