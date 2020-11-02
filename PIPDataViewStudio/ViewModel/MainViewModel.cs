@@ -54,7 +54,19 @@ namespace PIPDataViewStudio.ViewModel
 		private bool _canStopEnabled = false;
 		private bool _isReadSuccessful = true;
 		private string _strLog = "Ready";
-		
+		#endregion
+
+		#region  ctr
+		public MainViewModel()
+		{
+			opcUaClient.OpcStatusChange += OpcUaClient_OpcStatusChange;
+		}
+
+		private void OpcUaClient_OpcStatusChange(object sender, OpcUaStatusEventArgs e)
+		{
+			IsOPCConnected = !e.Error;
+			Console.WriteLine(e.Error);
+		}
 		#endregion
 
 		#region Property
@@ -67,7 +79,6 @@ namespace PIPDataViewStudio.ViewModel
 				RaisePropertyChanged();
 			}
 		}
-		
 		public DataAnalysisHelper DataAnalysis { get; private set; }
 		public ContentControl PageContent { get; set; }
 		public List<List<DistributeModel>> DistributeDataList
@@ -176,8 +187,6 @@ namespace PIPDataViewStudio.ViewModel
 					cts.Cancel();
 					xStart = false;
 					StartStatusChanged(xStart);
-					//opcUaClient.RemoveSubscription("EventA");
-					//xStop = true;
 				});
 			}
 		}
@@ -188,7 +197,6 @@ namespace PIPDataViewStudio.ViewModel
 				return new RelayCommand(() =>
 				{
 					ConnectOPCUA();
-					IsOPCConnected = opcUaClient.Connected;
 				});
 			}
 		}
@@ -343,14 +351,11 @@ namespace PIPDataViewStudio.ViewModel
 				opcUaClient.UserIdentity = new UserIdentity("Administrator", "SIGCombibloc");
 				await opcUaClient.ConnectServer(OpcServiceAddress);
 				MessageBox.Show("Connect successfully", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-				//opcUaClient.AddSubscription("EventA", $"ns=2;s=Siemens_1.RecordInformation.RecordTrack1Time[0]", EventACallback);
 			}
 			catch (Exception ex)
 			{
 				ClientUtils.HandleException("Connected Failed", ex);
 			}
-
-
 			/*FormBrowseServer formBrowseServer = new FormBrowseServer(OPCService_Address);
 			formBrowseServer.ShowDialog();*/
 		}
@@ -483,21 +488,6 @@ namespace PIPDataViewStudio.ViewModel
 				ShowLog($"Total {DataCollect.Count} Items added");
 			});
 			return 0;
-		}
-
-		private void EventACallback(string Key, MonitoredItem item, MonitoredItemNotificationEventArgs e)
-		{
-			switch (Key)
-			{
-				case "EventA":
-					Application.Current.Dispatcher.Invoke(() =>
-					{
-						ReadDataFromOPC();
-					});
-					break;
-				default:
-					break;
-			}
 		}
 
 		private List<PIPDataModel> AnalysisData(List<PIPDataModel> data)
