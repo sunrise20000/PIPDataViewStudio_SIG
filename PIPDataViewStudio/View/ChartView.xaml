@@ -28,10 +28,10 @@
                                 </dxc:AxisY2D.Title>
                             </dxc:AxisY2D>
                         </dxc:XYDiagram2D.AxisY>
-                <dxc:PointSeries2D DisplayName="Track 1" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight1" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
-                <dxc:PointSeries2D DisplayName="Track 2" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight2" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
-                <dxc:PointSeries2D DisplayName="Track 3" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight3" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
-                <dxc:PointSeries2D DisplayName="Track 4" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight4" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
+                <dxc:LineSeries2D DisplayName="Track 1" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight1" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
+                <dxc:LineSeries2D DisplayName="Track 2" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight2" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
+                <dxc:LineSeries2D DisplayName="Track 3" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight3" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
+                <dxc:LineSeries2D DisplayName="Track 4" DataSource="{Binding}" ValueDataMember="SleevesInfoModel.SleeveHeight4" ArgumentDataMember="Ticks" ArgumentScaleType="Auto" />
                 </dxc:XYDiagram2D>
 
                 </dxc:ChartControl>

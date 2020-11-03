@@ -124,6 +124,11 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel />
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
             <!--<ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>

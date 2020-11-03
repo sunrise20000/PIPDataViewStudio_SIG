@@ -27,7 +27,7 @@ namespace PIPDataViewStudio.ViewModel
 		const int TRACKNUMBER = 4;
 		const int ROW = 30;
 		const int TIME_READ_MILISECOND = 8000;
-		const int MAX_COUNT = 10000;
+		const int MAX_COUNT = 20000;
 		const string CONNECT_STRING = @"server=CFA874151001\ZENON_2012;uid=sa;pwd=SIGCombibloc;database=";
 		const string DATABASE_NAME = "SleeveInfo";
 		string BACKUP_DATABASE_PATH = AppDomain.CurrentDomain.BaseDirectory;
@@ -54,12 +54,24 @@ namespace PIPDataViewStudio.ViewModel
 		private bool _canStopEnabled = false;
 		private bool _isReadSuccessful = true;
 		private string _strLog = "Ready";
+		List<PIPDataModel> L = new List<PIPDataModel>();
 		#endregion
 
 		#region  ctr
 		public MainViewModel()
 		{
 			opcUaClient.OpcStatusChange += OpcUaClient_OpcStatusChange;
+			
+			//for (int i = 0; i < MAX_COUNT; i++)
+			//{
+			//	List<short> HeightList = new List<short>() { (short)i, (short)i, (short)i, (short)i };
+			//	List<short> StatusList = new List<short>() { (short)i, (short)i, (short)i, (short)i };
+
+
+			//	L.Add(new PIPDataModel(HeightList, DateTime.Now, DateTime.Now + new TimeSpan(0,0,i), StatusList, i));
+
+			//	//DataCollect = new ObservableCollection<PIPDataModel>(L);
+			//}
 		}
 
 		private void OpcUaClient_OpcStatusChange(object sender, OpcUaStatusEventArgs e)
@@ -340,6 +352,27 @@ namespace PIPDataViewStudio.ViewModel
 				MessageBox.Show($"{ex.Message}----{ex.StackTrace}", "Sql connection error", MessageBoxButton.OKCancel, MessageBoxImage.Error);
 			}
 		}); } }
+		//DebugCommand
+		public RelayCommand DebugCommand
+		{
+			get
+			{
+				return new RelayCommand(() =>
+				{
+					DataCollect = new ObservableCollection<PIPDataModel>(L);
+					//for (int i = 0; i < 8; i++)
+					//{
+					//	List<short> HeightList = new List<short>() { (short)i, (short)i, (short)i, (short)i };
+					//	List<short> StatusList = new List<short>() { (short)i, (short)i, (short)i, (short)i };
+
+
+					//	DataCollect.Add(new PIPDataModel(HeightList, DateTime.Now, DateTime.Now + new TimeSpan(0, 0, i), StatusList, i));
+
+					//	//DataCollect = new ObservableCollection<PIPDataModel>(L);
+					//}
+				});
+			}
+		}
 		#endregion
 
 		#region  Privage function
@@ -469,8 +502,8 @@ namespace PIPDataViewStudio.ViewModel
 					IsReadSuccessful = true;
 					DataCollect = new ObservableCollection<PIPDataModel>(DataCollect.Concat(listCommit));
 					ShowLog($"Recording data: {DataCollect.Count} items are recorded");
-					if (DataCollect.Count > 10000)
-						for (int i = 0; i < listCommit.Count; i++)
+					if (DataCollect.Count > MAX_COUNT)
+						for (int i = 0; i < DataCollect.Count - MAX_COUNT; i++)
 							DataCollect.RemoveAt(0);
 				});
 				Thread.Sleep(TIME_READ_MILISECOND);

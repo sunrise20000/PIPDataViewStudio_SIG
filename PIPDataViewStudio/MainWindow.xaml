@@ -33,6 +33,7 @@
                         <dxb:BarButtonItem  Content="AnalysisView" Command="{Binding AnalysisCommand}" ItemClick="AnalysisView_ItemClick" CommandParameter="{Binding DataCollect}" LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/analysis.png"/>
                         <dxb:BarButtonItem  Content="HistogramView" Command="{Binding HistogramCommand}" ItemClick="Histogram_ItemClick" CommandParameter="{Binding DataCollect}" LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/Histogram.png"/>
                         <dxb:BarButtonItem  Content="Export" Command="{Binding ExportCommand}" LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/export.png"/>
+                        <dxb:BarButtonItem  Content="Debug" IsVisible="False" Command="{Binding DebugCommand}" LargeGlyph="pack://application:,,,/PIPDataViewStudio;component/Images/export.png"/>
                     </dxr:RibbonPageGroup>
                 </dxr:RibbonPage>
             </dxr:RibbonDefaultPageCategory>
